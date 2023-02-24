@@ -1,0 +1,55 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public abstract class ChessTile {
+
+    final int tileCoordinates;
+
+    private static final Map<Integer, EmptyTile> EMPTY_TILES = createAllPossibleEmptyTiles();
+
+    private static Map<Integer, EmptyTile> createAllPossibleEmptyTiles() { //Shows all the VALID and empty spaces that are in the chess board
+        final Map<Integer, EmptyTile> emptyTileMap = new HashMap<>();
+        for (int i =0; i < 64; i++){
+            emptyTileMap.put(i, new EmptyTile(i));
+        }
+        return emptyTileMap; //Returns all possibility of empty squares
+    }
+
+    ChessTile(int tileCoordinates){ //Constructor - Allows to create individuals tiles
+        this.tileCoordinates = tileCoordinates; // When constructing an instance of tile, it assigns a coordinate to what you put
+    }
+
+    public abstract boolean isTileOccupied(); //Returns if a tile in the chess board is occupied. Abstract means it will be defined in a different class
+
+    public abstract Piece getPiece();
+
+    public static final class EmptyTile extends ChessTile {
+        private EmptyTile(final int coordinate){
+            super(coordinate);
+        }
+
+        @Override
+        public boolean isTileOccupied(){
+            return false;
+        }
+
+        @Override
+        public Piece getPiece(){ //Gets the piece from a specified tile
+            return null;} //null because there is no piece
+    }
+
+    public static final class OccupiedTile extends ChessTile{
+        private final Piece pieceOnTile;
+        private OccupiedTile(int tileCoordinate, Piece pieceOnTile){
+            super(tileCoordinate); //Gets coordinate
+            this.pieceOnTile = pieceOnTile; //Gets the piece
+        }
+        @Override
+        public boolean isTileOccupied() {
+            return true; //Returns that the tile is occupied
+        }
+        @Override
+        public Piece getPiece(){
+            return this.pieceOnTile;} //Returns the piece that is on that tile
+        }
+    }
