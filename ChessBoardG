@@ -1,0 +1,188 @@
+import javax.swing.*;
+import java.awt.*;
+import javax.swing.ImageIcon;
+
+public class ChessBoardG {
+
+    JFrame frame;
+    JButton squares[][] = new JButton[8][8]; // Array for chess board - 8x8
+
+    ImageIcon BlackKing = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\BK.png"); //Grabs image and displays as ImageIcon
+    ImageIcon BlackQueen = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\BQ.png");
+    ImageIcon BlackPawn = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\BP.png");
+    ImageIcon BlackBishop = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\BB.png");
+    ImageIcon BlackRook = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\BR.png");
+    ImageIcon BlackKnight = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\BN.png");
+
+
+    ImageIcon WhiteKing = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\WK.png");
+    ImageIcon WhiteQueen = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\WQ.png");
+    ImageIcon WhitePawn = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\WP.png");
+    ImageIcon WhiteBishop = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\WB.png");
+    ImageIcon WhiteRook = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\WR.png");
+    ImageIcon WhiteKnight = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\WN.png");
+
+
+    public ChessBoardG() {
+
+        frame = new JFrame("ChessAI"); //Title of the window
+        frame.setSize(500, 500);
+        frame.setLayout(new GridLayout(8, 8));
+
+        for (int cordX = 0; cordX < 8; cordX++) {
+            for (int cordY = 0; cordY < 8; cordY++) {
+                squares[cordX][cordY] = new JButton(); //for loops used to create chess board
+
+                if ((cordX + cordY) % 2 == 0) {
+                    squares[cordX][cordY].setBackground(Color.WHITE); //Displays white tiles
+
+                } else {
+                    squares[cordX][cordY].setBackground(Color.DARK_GRAY); //Displays Dark grey on the other tiles
+                }
+
+                frame.add(squares[cordX][cordY]);
+
+                // If the user is playing as black
+
+                //Ai's side
+                if (cordX == 0 && cordY == 0 || cordX == 0 && cordY == 7) {
+                    squares[cordX][cordY].setIcon(WhiteRook);
+                }
+
+                if (cordX == 0 && cordY == 1 || cordX == 0 && cordY == 6) {
+                    squares[cordX][cordY].setIcon(WhiteKnight);
+                }
+
+                if (cordX == 0 && cordY == 2 || cordX == 0 && cordY == 5) {
+                    squares[cordX][cordY].setIcon(WhiteBishop);
+                }
+
+                if (cordX == 0 && cordY == 3) {
+                    squares[cordX][cordY].setIcon(WhiteKing);
+                }
+
+                if (cordX == 0 && cordY == 4) {
+                    squares[cordX][cordY].setIcon(WhiteQueen);
+                }
+
+                for (int whitePawn = 0; whitePawn < 8; whitePawn++) {
+                    if (cordX == 1 && cordY == whitePawn) {
+                        squares[1][whitePawn].setIcon(WhitePawn);
+                    }
+                }
+
+
+                //User's side
+
+                if (cordX == 7 && cordY == 0 || cordX == 7 && cordY == 7) {
+                    squares[cordX][cordY].setIcon(BlackRook);
+                }
+
+                if (cordX == 7 && cordY == 3) {
+                    squares[7][3].setIcon(BlackKing);
+                }
+
+                if (cordX == 7 && cordY == 1 || cordX == 7 && cordY == 6) {
+                    squares[cordX][cordY].setIcon(BlackKnight);
+                }
+
+                if (cordX == 7 && cordY == 2 || cordX == 7 && cordY == 5) {
+                    squares[cordX][cordY].setIcon(BlackBishop);
+                }
+
+                if (cordX == 7 && cordY == 4) {
+                    squares[cordX][cordY].setIcon(BlackQueen);
+                }
+
+                for (int blackPawn = 0; blackPawn < 8; blackPawn++) {
+                    if (cordX == 6 && cordY == blackPawn) {
+                        squares[6][blackPawn].setIcon(BlackPawn);
+                    }
+                }
+
+
+            }
+
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Allows program to be closed if the user press exit
+            frame.setVisible(true);
+        } //Sets the program visible
+
+
+    }
+
+    public void uWhiteSide() { //Flips the board around so that the user is playing white - AI can play black
+        for (int cordX = 0; cordX < 8; cordX++) {
+            for (int cordY = 0; cordY < 8; cordY++) {
+                if (squares[cordX][cordY].getIcon() == BlackKing) {
+                    squares[cordX][cordY].setIcon(WhiteQueen);
+                } else if (squares[cordX][cordY].getIcon() == BlackQueen) {
+                    squares[cordX][cordY].setIcon(WhiteKing);
+                } else if (squares[cordX][cordY].getIcon() == BlackPawn) {
+                    squares[cordX][cordY].setIcon(WhitePawn);
+                } else if (squares[cordX][cordY].getIcon() == BlackBishop) {
+                    squares[cordX][cordY].setIcon(WhiteBishop);
+                } else if (squares[cordX][cordY].getIcon() == BlackRook) {
+                    squares[cordX][cordY].setIcon(WhiteRook);
+                } else if (squares[cordX][cordY].getIcon() == BlackKnight) {
+                    squares[cordX][cordY].setIcon(WhiteKnight);
+                } else if (squares[cordX][cordY].getIcon() == WhiteKing) {
+                    squares[cordX][cordY].setIcon(BlackQueen);
+                } else if (squares[cordX][cordY].getIcon() == WhiteQueen) {
+                    squares[cordX][cordY].setIcon(BlackKing);
+                } else if (squares[cordX][cordY].getIcon() == WhitePawn) {
+                    squares[cordX][cordY].setIcon(BlackPawn);
+                } else if (squares[cordX][cordY].getIcon() == WhiteBishop) {
+                    squares[cordX][cordY].setIcon(BlackBishop);
+                } else if (squares[cordX][cordY].getIcon() == WhiteRook) {
+                    squares[cordX][cordY].setIcon(BlackRook);
+                } else if (squares[cordX][cordY].getIcon() == WhiteKnight) {
+                    squares[cordX][cordY].setIcon(BlackKnight);
+                }
+            }
+        }
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Allows program to be closed if the user press exit
+        frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+   new ChessBoardG(); } //Displays the board
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*public static void main (String [] args){
+    JFrame frame = new JFrame();
+    frame.setBounds(10,10,512,512);
+    JPanel pn = new JPanel(){
+        @Override
+        public void paint (Graphics g){}
+    };
+}
+    frame.add(pn);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+}
+*/
