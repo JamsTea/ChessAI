@@ -1,0 +1,15 @@
+import java.util.List;
+
+public abstract class Piece {
+
+
+
+    final int piecePosition;
+     final colour pieceColour;
+
+    Piece (final int piecePosition, final colour pieceColour){
+        this.pieceColour = pieceColour; //colour for chess piece
+        this.piecePosition = piecePosition;} //position for chess piece
+
+    public abstract List<Move> calculateLegalMoves(final Board board); //calculate the legal moves that a piece can make.
+}
