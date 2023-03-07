@@ -1,0 +1,28 @@
+//Code doesn't work yet - Will need to write a board class first
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Pawn extends Piece{
+    public Pawn (int position, Color color){
+        super(position, color);}
+
+    @Override
+    public List <Integer> findLegalMoves(Board board){
+        List <Integer> legalMoves = new ArrayList<>();
+        int currentPosition = getPosition();
+
+        if (getColor()== Color.WHITE){
+            int oneTileForward = currentPosition -8;
+            if(board.getPosition(oneTileForward).isOccupied()){
+                return legalMoves;}
+            legalMoves.add(oneTileForward);
+        } else{
+            int oneTileForward = currentPosition + 8;
+            if (board.getPosition(oneTileForward).isOccupied()){
+                return legalMoves;}
+            legalMoves.add(oneTileForward);
+        }
+        return legalMoves;}
+}
