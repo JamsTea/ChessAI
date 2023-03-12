@@ -1,0 +1,16 @@
+public class Board {
+
+    private Piece [][] positions; //2D Array called Positions
+
+    public Board() {
+        positions = new Piece[8][8];} //Initialised array 8 x 8 (size of chess board)
+
+    public void setPiece (Piece piece, int x, int y){ //Set method for the positions for x and y co-ords
+        positions [x][y] = piece;}
+
+    public Piece getPosition (int x , int y){ //Get method to return the position at x and y co-ords
+        return positions [x][y];}
+
+
+}
+
