@@ -1,15 +1,29 @@
+import java.awt.*;
 import java.util.List;
 
 public abstract class Piece {
+    private int position;
+    private Color color;
 
+    public Piece(int position, Color color) { //Constructor to initialise the position and colour of the chess piece
+        this.position = position;
+        this.color = color;}
 
+    public int getPosition() { //Get method to return the position of the chess piece
+        return position;
+    }
 
-    final int piecePosition;
-     final colour pieceColour;
+    public Color getColor() { //Get method to return the colour of the chess piece
+        return color;}
 
-    Piece (final int piecePosition, final colour pieceColour){
-        this.pieceColour = pieceColour; //colour for chess piece
-        this.piecePosition = piecePosition;} //position for chess piece
+    public boolean isOccupied() { //Checks if the tile is occupied
+        ChessTile EmptyTile = new ChessTile.EmptyTile(position);
+        return (!EmptyTile.isOccupied()); //Return true if the tile is occupied
+    }
 
-    public abstract List<Move> calculateLegalMoves(final Board board); //calculate the legal moves that a piece can make.
+    public abstract List<Integer> findLegalMoves(Board board); //Abstract method to find the legal moves of a chess piece at a given point in time
 }
+
+
+
+
