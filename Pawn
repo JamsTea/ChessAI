@@ -1,28 +1,38 @@
-//Code doesn't work yet - Will need to write a board class first
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pawn extends Piece{
-    public Pawn (int position, Color color){
-        super(position, color);}
+public class Pawn extends Piece  { //Constructor for pawn
+    public Pawn(int position, Color color) {
+        super(position, color);
+    }
 
     @Override
-    public List <Integer> findLegalMoves(Board board){
-        List <Integer> legalMoves = new ArrayList<>();
-        int currentPosition = getPosition();
+    public List<Integer> findLegalMoves(Board board) { //Initialise an empty list which will store all of it's legal moves
+        List<Integer> legalMoves = new ArrayList<>();
+        int currentPosition = getPosition(); //Get the current position for the pawn
+        int currentXVal = currentPosition/8; //Calculates the current X position
+        int currentYVal = currentPosition%8; //Calculates the current Y position
 
-        if (getColor()== Color.WHITE){
-            int oneTileForward = currentPosition -8;
-            if(board.getPosition(oneTileForward).isOccupied()){
+        int oneTileForward;
+
+        if (getColor() == Color.WHITE) { //Check if the pawn is white
+             oneTileForward = currentPosition - 8; //Moves the pawn up by 1 tile ahead
+
+             if(!board.getPosition(oneTileForward,currentYVal).isOccupied()){
                 return legalMoves;}
-            legalMoves.add(oneTileForward);
-        } else{
-            int oneTileForward = currentPosition + 8;
-            if (board.getPosition(oneTileForward).isOccupied()){
-                return legalMoves;}
-            legalMoves.add(oneTileForward);
+             legalMoves.add(oneTileForward);} //If the tile ahead is not occupied, add it as one of it's legal moves
+
+        else { //For the black pawn
+            oneTileForward = currentPosition + 8; //Moves the pawn up by 1 tile ahead
+            if (!board.getPosition(oneTileForward,currentYVal).isOccupied()) {
+                return legalMoves;
+            }
+            legalMoves.add(oneTileForward); //If the tile ahead is not occupied, add it as one of it's legal moves
         }
-        return legalMoves;}
+        return legalMoves;
+    }
 }
+
+
+
