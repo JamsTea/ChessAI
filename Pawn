@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,17 +12,48 @@ public class Pawn extends Piece  { //Constructor for pawn
     public List<Integer> findLegalMoves(Board board) { //Initialise an empty list which will store all of it's legal moves
         List<Integer> legalMoves = new ArrayList<>();
         int currentPosition = getPosition(); //Get the current position for the pawn
-        int currentXVal = currentPosition/8; //Calculates the current X position
-        int currentYVal = currentPosition%8; //Calculates the current Y position
+        int currentXVal = currentPosition / 8; //Calculates the current X position
+        int currentYVal = currentPosition % 8; //Calculates the current Y position
+
+        int whiteDiagLeft = currentPosition - 9;
+        int whiteDiagRight = currentPosition - 7;
+
+        int blackDiagLeft = currentPosition + 9;
+        int blackDiagRight = currentPosition - 7;
 
         int oneTileForward;
 
         if (getColor() == Color.WHITE) { //Check if the pawn is white
-             oneTileForward = currentPosition - 8; //Moves the pawn up by 1 tile ahead
+            oneTileForward = currentPosition - 8; //Moves the pawn up by 1 tile ahead
 
-             if(!board.getPosition(oneTileForward,currentYVal).isOccupied()){
-                return legalMoves;}
-             legalMoves.add(oneTileForward);} //If the tile ahead is not occupied, add it as one of it's legal moves
+            if (!board.getPosition(oneTileForward, currentYVal).isOccupied()) {
+                return legalMoves;
+            }
+            legalMoves.add(oneTileForward);
+
+            //if statements to check whether the white pawn on its diagonal left is an enemy piece
+            if (board.getPosition(currentXVal-1,whiteDiagLeft).getPiece()==whitePawn ||
+                    board.getPosition(currentXVal-1, whiteDiagLeft).getPiece()==whiteBishop ||
+                    board.getPosition(currentXVal-1,whiteDiagLeft).getPiece()==whiteKing ||
+                    board.getPosition(currentXVal-1, whiteDiagLeft).getPiece()==whiteKnight ||
+                    board.getPosition(currentXVal-1, whiteDiagLeft).getPiece()== whiteQueen ||
+                    board.getPosition(currentXVal-1,whiteDiagLeft).getPiece()==whiteRook){
+                return legalMoves;
+        }
+        legalMoves.add(whiteDiagLeft);
+
+        //If statements to check whether the white pawn on its diagonal right is an enemy piece
+            if (board.getPosition(currentXVal + 1, whiteDiagRight).getPiece() == whitePawn ||
+                    board.getPosition(currentXVal+1, whiteDiagRight).getPiece() == whiteBishop ||
+                    board.getPosition(currentXVal + 1, whiteDiagRight).getPiece() == whiteKing ||
+                    board.getPosition(currentXVal+1 , whiteDiagRight).getPiece () == whiteKnight ||
+                    board.getPosition(currentXVal+1, whiteDiagRight).getPiece()==whiteQueen ||
+                    board.getPosition(currentXVal+1, whiteDiagRight).getPiece()==whiteRook) {
+                return legalMoves;
+            }
+            legalMoves.add(whiteDiagRight);
+
+        }
 
         else { //For the black pawn
             oneTileForward = currentPosition + 8; //Moves the pawn up by 1 tile ahead
@@ -29,10 +61,34 @@ public class Pawn extends Piece  { //Constructor for pawn
                 return legalMoves;
             }
             legalMoves.add(oneTileForward); //If the tile ahead is not occupied, add it as one of it's legal moves
+
+            //if statements to check whether the black pawn on its diagonal left is an enemy piece
+            if (board.getPosition(currentXVal -1, blackDiagLeft).getPiece() == whitePawn ||
+                    board.getPosition(currentXVal -1, blackDiagLeft).getPiece() == whiteBishop ||
+                    board.getPosition(currentXVal -1, blackDiagLeft).getPiece() == whiteKing ||
+                    board.getPosition(currentXVal-1 , blackDiagLeft).getPiece () == whiteKnight ||
+                    board.getPosition(currentXVal-1, blackDiagLeft).getPiece()== whiteQueen ||
+                    board.getPosition(currentXVal-1, blackDiagLeft).getPiece()== whiteRook) {
+                return legalMoves;}
+            legalMoves.add(blackDiagLeft);
+
+            //if statement to check whether the black pawn on its diagonal right is an enemy piece
+            if (board.getPosition(currentXVal +1, blackDiagRight).getPiece() == whitePawn ||
+                    board.getPosition(currentXVal +1, blackDiagRight).getPiece() == whiteBishop ||
+                    board.getPosition(currentXVal +1, blackDiagRight).getPiece() == whiteKing ||
+                    board.getPosition(currentXVal+1 , blackDiagRight).getPiece () == whiteKnight ||
+                    board.getPosition(currentXVal+1, blackDiagRight).getPiece()== whiteQueen ||
+                    board.getPosition(currentXVal+1, blackDiagRight).getPiece()== whiteRook) {
+                return legalMoves;}
+            legalMoves.add(blackDiagLeft);
         }
+
+
         return legalMoves;
+
+
     }
+
+
+
 }
-
-
-
