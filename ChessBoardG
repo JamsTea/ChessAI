@@ -1,8 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.List;
 
 public class ChessBoardG {
+
+    public boolean isUserPlayingWhite = true;
 
     JFrame frame;
     JButton squares[][] = new JButton[8][8]; // Array for chess board - 8x8
@@ -25,13 +32,97 @@ public class ChessBoardG {
 
     public ChessBoardG() {
 
+
         frame = new JFrame("ChessAI"); //Title of the window
         frame.setSize(500, 500);
         frame.setLayout(new GridLayout(8, 8));
 
-        for (int cordX = 0; cordX < 8; cordX++) {
+        for ( int cordX = 0; cordX < 8; cordX++) {
             for (int cordY = 0; cordY < 8; cordY++) {
-                squares[cordX][cordY] = new JButton(); //for loops used to create chess board
+                squares[cordX][cordY] = new JButton(); //for loops used to create chess board]
+
+                int currentPosCordX = cordX;
+                int currentPosCordY = cordY;
+
+/*
+
+                squares[cordX][cordY].addMouseListener(new MouseAdapter() {
+                    public void mouseClicked(MouseEvent e){
+                        JButton button = (JButton)e.getSource();
+                        ImageIcon piece = (ImageIcon) button.getIcon();
+                        if(piece == null){
+                            return;}
+
+                        if (piece.equals(WhitePawn) || piece.equals(BlackPawn)) {
+                            int currentPosition = currentPosCordX * 8 + currentPosCordY;
+                            Color pawnColor;
+                            if (piece == WhitePawn) {
+                                pawnColor = Color.WHITE;
+                            } else {
+                                pawnColor = Color.BLACK;}
+                            Pawn pawn = new Pawn(currentPosition, pawnColor);
+
+
+                            List<Integer> legalMoves = pawn.findLegalMoves(board);
+                             for (int position : legalMoves)
+                                 for (int position : legalMoves) {
+                                     int x = position / 8;
+                                     int y = position % 8;
+                                     squares[x][y].setBackground(Color.YELLOW);
+                                 }
+
+                            // Let the user select the square to move the pawn to
+                            squares[cordX][cordY].setBackground(Color.GREEN); // highlight the selected pawn
+                            int newX = -1, newY = -1; // initialize new coordinates to invalid values
+                            while (newX == -1 || newY == -1) { // keep asking until valid coordinates are entered
+                                int response = JOptionPane.showConfirmDialog(null, "Select a square to move the pawn to.");
+                                if (response == JOptionPane.CANCEL_OPTION) { // user cancelled the move
+                                    squares[cordX][cordY].setBackground(null); // unhighlight the selected pawn
+                                    for (int position : legalMoves) { // unhighlight legal moves
+                                        int x = position / 8;
+                                        int y = position % 8;
+                                        squares[x][y].setBackground(null);
+                                    }
+                                    return;
+                                }
+                                try {
+                                    newX = Integer.parseInt(JOptionPane.showInputDialog("Enter the X coordinate of the new position:"));
+                                    newY = Integer.parseInt(JOptionPane.showInputDialog("Enter the Y coordinate of the new position:"));
+                                } catch (NumberFormatException ex) { // invalid input, try again
+                                    continue;
+                                }
+                                int newPosition = newX * 8 + newY;
+                                if (!legalMoves.contains(newPosition)) { // selected square is not a legal move
+                                    JOptionPane.showMessageDialog(null, "Invalid move. Please select a legal move.");
+                                    newX = -1;
+                                    newY = -1;
+                                }
+                            }
+
+                            // Move the selected pawn
+                            int newPosition = newX * 8 + newY;
+                            pawn.move(newPosition);
+
+                            // Update the graphical representation of the board
+                            button.setIcon(null); // remove the pawn from its old position
+                            squares[newX][newY].setIcon(piece); // add the pawn to its new position
+
+                            // Unhighlight squares
+                            squares[cordX][cordY].setBackground(null); // unhighlight the selected pawn
+                            for (int position : legalMoves) { // unhighlight legal moves
+                                int x = position / 8;
+                                int y = position % 8;
+                                squares[x][y].setBackground(null);
+                            }
+                        }
+                    }
+                });
+
+
+
+ */
+
+
 
                 if ((cordX + cordY) % 2 == 0) {
                     squares[cordX][cordY].setBackground(Color.WHITE); //Displays white tiles
@@ -43,6 +134,8 @@ public class ChessBoardG {
                 frame.add(squares[cordX][cordY]);
 
                 // If the user is playing as black
+
+                isUserPlayingWhite = false;
 
                 //Ai's side
                 if (cordX == 0 && cordY == 0 || cordX == 0 && cordY == 7) {
@@ -111,6 +204,8 @@ public class ChessBoardG {
     }
 
     public void uWhiteSide() { //Flips the board around so that the user is playing white - AI can play black
+        isUserPlayingWhite = true;
+
         for (int cordX = 0; cordX < 8; cordX++) {
             for (int cordY = 0; cordY < 8; cordY++) {
                 if (squares[cordX][cordY].getIcon() == BlackKing) {
@@ -140,49 +235,30 @@ public class ChessBoardG {
                 }
             }
         }
+
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Allows program to be closed if the user press exit
         frame.setVisible(true);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static void main(String[] args) {
-   new ChessBoardG(); } //Displays the board
+        } //Displays the board
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*public static void main (String [] args){
-    JFrame frame = new JFrame();
-    frame.setBounds(10,10,512,512);
-    JPanel pn = new JPanel(){
-        @Override
-        public void paint (Graphics g){}
-    };
-}
-    frame.add(pn);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-
-}
-*/
