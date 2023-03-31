@@ -1,55 +1,42 @@
-import java.util.HashMap;
-import java.util.Map;
+public abstract class ChessTile{
+    private final int tileCoordinate; //Stores the coordinate of the tile
 
-public abstract class ChessTile {
+    public ChessTile(int tileCoordinate){ //constructor to initialise the tileCoordinate variable
+        this.tileCoordinate=tileCoordinate;}
 
-    final int tileCoordinates;
+    public int getTileCoordinate(){ //Returns the tileCoordinate
+        return tileCoordinate;}
 
-    private static final Map<Integer, EmptyTile> EMPTY_TILES = createAllPossibleEmptyTiles();
+    public abstract boolean isOccupied(); //Check if the tile is occupied
+    public abstract Piece getPiece(); //Method to get the piece on a tile
 
-    private static Map<Integer, EmptyTile> createAllPossibleEmptyTiles() { //Shows all the VALID and empty spaces that are in the chess board
-        final Map<Integer, EmptyTile> emptyTileMap = new HashMap<>();
-        for (int i =0; i < 64; i++){
-            emptyTileMap.put(i, new EmptyTile(i));
-        }
-        return emptyTileMap; //Returns all possibility of empty squares
-    }
-
-    ChessTile(int tileCoordinates){ //Constructor - Allows to create individuals tiles
-        this.tileCoordinates = tileCoordinates; // When constructing an instance of tile, it assigns a coordinate to what you put
-    }
-
-    public abstract boolean isTileOccupied(); //Returns if a tile in the chess board is occupied. Abstract means it will be defined in a different class
-
-    public abstract Piece getPiece();
-
-    public static final class EmptyTile extends ChessTile {
-        private EmptyTile(final int coordinate){
-            super(coordinate);
-        }
+    public static class EmptyTile extends ChessTile{ //Shows if there is an empty tile
+        public EmptyTile(int tileCoordinate){ //Constructor to create an empty tile at a given tile coordinate
+            super(tileCoordinate);}
 
         @Override
-        public boolean isTileOccupied(){
-            return false;
-        }
+        public boolean isOccupied(){ //Method to check if the tile is occupied
+            return false;} //Returns false since it's an empty tile
 
         @Override
-        public Piece getPiece(){ //Gets the piece from a specified tile
-            return null;} //null because there is no piece
+        public Piece getPiece(){ //Method to get the piece on the tile
+            return null;} //Returns null since it's an empty tile
     }
 
-    public static final class OccupiedTile extends ChessTile{
-        private final Piece pieceOnTile;
-        private OccupiedTile(int tileCoordinate, Piece pieceOnTile){
-            super(tileCoordinate); //Gets coordinate
-            this.pieceOnTile = pieceOnTile; //Gets the piece
-        }
+    public static class OccupiedTile extends ChessTile{ //Class to represent an occupied tile
+        private final Piece piece; //Variable to store the piece on the tile
+
+        public OccupiedTile(int tileCoordinate, Piece piece){ //Constructor to create an occupied tile with the given piece and coordinate
+            super(tileCoordinate);
+            this.piece = piece;}
+
         @Override
-        public boolean isTileOccupied() {
-            return true; //Returns that the tile is occupied
-        }
+       public boolean isOccupied(){ //Method to check if the tile is occupied
+            return true;} //Returns true since it's an occupied tile
         @Override
-        public Piece getPiece(){
-            return this.pieceOnTile;} //Returns the piece that is on that tile
-        }
+        public Piece getPiece(){ //Method to get the piece on the tile
+            return piece;}
+
     }
+}
+
