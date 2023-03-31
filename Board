@@ -1,4 +1,11 @@
-public class Board extends ChessBoardG{
+import java.awt.*;
+
+public class Board extends ChessBoardG
+{
+
+    Board board = new Board();
+    Pawn pawn = new Pawn(0, Color.WHITE, board);
+
 
     //Numerical value for each piece. Will be used to help decide whether the piece is the opposition or not
     public final int empty = 0;
@@ -16,6 +23,8 @@ public class Board extends ChessBoardG{
     public final int blackKing =-6;
 
 
+
+
     private Piece [][] positions; //2D Array called Positions
 
     public Board() {
@@ -28,7 +37,7 @@ public class Board extends ChessBoardG{
         return positions [x][y];}
 
 
-    public boolean canTakePiece(int x, int y, int currentPlayer){ //Boolean function which will return true if the piece attacking is an enemy piece or not
+    public boolean canTakePiece(int x, int y){ //Boolean function which will return true if the piece attacking is an enemy piece or not
         Piece piece = positions [x][y];
         if (piece == null){
             return false;}
@@ -39,7 +48,6 @@ public class Board extends ChessBoardG{
                 return true;}
         }
 
-
         if (!isUserPlayingWhite ){
             if(piece.getPosition() == whitePawn || piece.getPosition() == whiteKnight || piece.getPosition() == whiteBishop || piece.getPosition()==whiteRook
                 || piece.getPosition()==whiteQueen || piece.getPosition()==whiteKing){
@@ -48,4 +56,6 @@ public class Board extends ChessBoardG{
         return false;
 
     }
+
 }
+
