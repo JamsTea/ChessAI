@@ -1,4 +1,6 @@
+import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class Board extends ChessBoardG
 {
@@ -21,6 +23,41 @@ public class Board extends ChessBoardG
     public final int blackRook = -4;
     public final int blackQueen =-5;
     public final int blackKing =-6;
+
+
+    public JButton getButton(int x, int y) {
+        Component[] components = frame.getContentPane().getComponents(); // get all the components in the content pane
+        for (Component component : components) {
+            if (component instanceof JButton) { // check if the component is a JButton
+                JButton button = (JButton) component;
+                int buttonX = (int) button.getClientProperty("x"); // get the x coordinate of the button from its client property
+                int buttonY = (int) button.getClientProperty("y"); // get the y coordinate of the button from its client property
+                if (buttonX == x && buttonY == y) { // if the button's x and y coordinates match the given x and y coordinates, return the button
+                    return button;
+                }
+            }
+        }
+        return null; // return null if no matching button is found
+    }
+
+
+
+
+
+    public void updateGUI() {
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                JButton button = getButton(x, y); // get the JButton for the given x and y coordinates
+                Piece piece = getPosition(x, y); // get the piece at the given x and y coordinates
+                if (piece == null) {
+                    button.setIcon(null); // set the button icon to null if there's no piece at the given x and y coordinates
+                } else {
+                    ImageIcon icon = new ImageIcon(piece.getImage());  // in piece class getImage// create a new ImageIcon using the piece's image
+                    button.setIcon(icon); // set the button icon to the new ImageIcon
+                }
+            }
+        }
+    }
 
 
 
@@ -50,12 +87,13 @@ public class Board extends ChessBoardG
 
         if (!isUserPlayingWhite ){
             if(piece.getPosition() == whitePawn || piece.getPosition() == whiteKnight || piece.getPosition() == whiteBishop || piece.getPosition()==whiteRook
-                || piece.getPosition()==whiteQueen || piece.getPosition()==whiteKing){
+                    || piece.getPosition()==whiteQueen || piece.getPosition()==whiteKing){
                 return true;}
         }
         return false;
 
     }
 
-}
 
+
+}
