@@ -4,10 +4,8 @@ import java.util.List;
 
 public class Pawn extends Piece  {
     public Pawn(int position, Color color, Board board) {
-        super(position, color, board);
+        super(position, color, board,null);
     }
-
-
 
 
 
@@ -44,9 +42,11 @@ public class Pawn extends Piece  {
             oneTileForward = currentPosition - 8; //Moves the pawn up by 1 tile ahead
 
             if (!board.getPosition(oneTileForward, currentYVal).isOccupied()) {
-                return legalMoves;
+                Move move = new Move (oneTileForward,currentYVal, board);
+                legalMoves.add(oneTileForward);
+                move.setPiece(this);
             }
-            legalMoves.add(oneTileForward);
+
 
             //if statements to check whether the white pawn on its diagonal left is an enemy piece
             if (board.getPosition(whiteDiagLeftXCord,whiteDiagLeftYCord).getPiece()==blackPawn ||
@@ -56,10 +56,12 @@ public class Pawn extends Piece  {
                     board.getPosition(whiteDiagLeftXCord, whiteDiagLeftYCord).getPiece()== blackQueen ||
                     board.getPosition(whiteDiagLeftXCord,whiteDiagLeftYCord).getPiece()== blackRook) {
 
+                Move move = new Move (whiteDiagLeftXCord, whiteDiagLeftYCord, board);
+                legalMoves.add(move.getPosition());
+                move.setPiece(this);
 
-                return legalMoves;
+
         }
-            legalMoves.add(cBoard[whiteDiagLeftXCord][whiteDiagLeftYCord]);
 
         //If statements to check whether the white pawn on its diagonal right is an enemy piece
             if (board.getPosition(whiteDiagRightXCord, whiteDiagRightYCord).getPiece() == blackPawn ||
@@ -68,9 +70,12 @@ public class Pawn extends Piece  {
                     board.getPosition(whiteDiagRightXCord , whiteDiagRightYCord).getPiece () == blackKnight ||
                     board.getPosition(whiteDiagRightXCord, whiteDiagRightYCord).getPiece()== blackQueen ||
                     board.getPosition(whiteDiagRightXCord, whiteDiagRightYCord).getPiece()== blackRook) {
-                return legalMoves;
+
+                Move move = new Move (whiteDiagRightXCord, whiteDiagRightYCord, board);
+                legalMoves.add(move.getPosition());
+                move.setPiece(this);
+
             }
-            legalMoves.add(cBoard[whiteDiagRightXCord][whiteDiagRightYCord]);
         }
 
 
@@ -108,13 +113,10 @@ public class Pawn extends Piece  {
 
     public void move (int newPosition){
         setPosition(newPosition);
+
     }
 
 
+
+
 }
-
-
-
-
-
-
