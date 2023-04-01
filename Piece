@@ -1,6 +1,7 @@
 import javax.management.loading.ClassLoaderRepository;
 import java.awt.*;
 import java.util.List;
+import java.awt.Image;
 
 public abstract class Piece extends Board {
 
@@ -9,11 +10,18 @@ public abstract class Piece extends Board {
     private int position;
     private Color color;
     private int piece;
+    private Image image;
 
-    public Piece(int position, Color color, Board board) { //Constructor to initialise the position and colour of the chess piece
+    public Piece(int position, Color color, Board board, Image image) { //Constructor to initialise the position and colour of the chess piece
         this.position = position;
         this.color = color;
-        this.board = board;}
+        this.board = board;
+        this.image = image;}
+
+    public Image getImage() { //Get method to return the ImageIcon
+        return image;
+    }
+
 
     public int getPosition() { //Get method to return the position of the chess piece
         return position;
@@ -37,7 +45,3 @@ public abstract class Piece extends Board {
 
     public abstract List<Integer> findLegalMoves(Board board); //Abstract method to find the legal moves of a chess piece at a given point in time
 }
-
-
-
-
