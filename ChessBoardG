@@ -39,12 +39,14 @@ public class ChessBoardG {
 
         for ( int cordX = 0; cordX < 8; cordX++) {
             for (int cordY = 0; cordY < 8; cordY++) {
-                squares[cordX][cordY] = new JButton(); //for loops used to create chess board]
+                 squares[cordX][cordY] = new JButton(); //for loops used to create chess board]
 
+
+                /*
                 int currentPosCordX = cordX;
                 int currentPosCordY = cordY;
 
-/*
+
 
                 squares[cordX][cordY].addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e){
@@ -121,6 +123,9 @@ public class ChessBoardG {
 
 
  */
+
+
+
 
 
 
@@ -202,6 +207,8 @@ public class ChessBoardG {
 
 
     }
+
+
 
     public void uWhiteSide() { //Flips the board around so that the user is playing white - AI can play black
         isUserPlayingWhite = true;
