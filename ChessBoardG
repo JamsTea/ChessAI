@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.ImageIcon;
 
-public class ChessBoardG implements MouseListener{
+public class ChessBoardG extends Board implements MouseListener{
 
     public boolean isUserPlayingWhite = true;
 
@@ -274,5 +274,5 @@ public class ChessBoardG implements MouseListener{
     public static void main(String[] args) {
 
 
-        } 
+        }
 }
