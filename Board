@@ -2,8 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class Board extends ChessBoardG
-{
+public class Board {
+    private JFrame frame;
 
     Board board = new Board();
     Pawn pawn = new Pawn(0, Color.WHITE, board);
@@ -74,6 +74,7 @@ public class Board extends ChessBoardG
         return positions [x][y];}
 
 
+    /*
     public boolean canTakePiece(int x, int y){ //Boolean function which will return true if the piece attacking is an enemy piece or not
         Piece piece = positions [x][y];
         if (piece == null){
@@ -95,5 +96,7 @@ public class Board extends ChessBoardG
     }
 
 
+
+     */
 
 }
