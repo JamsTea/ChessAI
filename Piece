@@ -1,11 +1,8 @@
-import javax.management.loading.ClassLoaderRepository;
 import java.awt.*;
 import java.util.List;
 import java.awt.Image;
 
 public abstract class Piece extends Board {
-
-
 
     private int position;
     private Color color;
