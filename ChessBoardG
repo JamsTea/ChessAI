@@ -274,5 +274,5 @@ public class ChessBoardG implements MouseListener{
     public static void main(String[] args) {
 
 
-        } //Displays the board
+        } 
 }
