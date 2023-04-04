@@ -3,9 +3,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.ImageIcon;
-import java.util.List;
 
-public class ChessBoardG implements   MouseListener{
+public class ChessBoardG implements MouseListener{
 
     public boolean isUserPlayingWhite = true;
 
@@ -181,13 +180,11 @@ public class ChessBoardG implements   MouseListener{
 
         }
 
+
 @Override
     public void mouseReleased(MouseEvent e) {
     JButton source = (JButton) e.getSource();
     ImageIcon piece = (ImageIcon) source.getIcon();
-    System.out.println("Selected piecesasasa: " + piece);
-
-
 
         if (piece != null) {
             // Save the current location of the piece
@@ -205,7 +202,7 @@ public class ChessBoardG implements   MouseListener{
                 }
             }
 
-
+            int fromPos = fromX *8 + fromY;
 
             // Determine the new location where the user wants to move the piece
             JButton destination = (JButton) e.getComponent();
@@ -223,41 +220,30 @@ public class ChessBoardG implements   MouseListener{
                 }
             }
 
-            if (piece==WhitePawn){
+            int toPos = toX *8 + toY;
+
+            if (piece == WhitePawn) {
                 System.out.println("White Pawn");
-                if (isValidMove(fromX, fromY, toX, toY)){
-                    if (toX==0){
-                        squares[toX][toY].setIcon(WhiteQueen);
-                        squares[fromX][fromY].setIcon(null);
-                    }
+                if (WhitePawn.legalMoves.contains(toPos - fromPos)) {
+                    // Move the piece
+                    squares[fromX][fromY].setIcon(null);
+                    squares[toX][toY].setIcon(WhitePawn);
                 }
-
-            }
-
-
-
-            // Check if the move is valid
-            if (isValidMove(fromX, fromY, toX, toY)) {
-                // Update the board
-                squares[toX][toY].setIcon(piece);
-                squares[fromX][fromY].setIcon(null);
-
-
             } else {
-                // Reset the piece to its original location
-                squares[fromX][fromY].setIcon(null);
-                squares[toX][toY].setIcon(null); //error here
+                if (piece.legalMoves.contains(toPos - fromPos)) {
+                    // Move the piece
+                    squares[fromX][fromY].setIcon(null);
+                    squares[toX][toY].setIcon(piece);
+                } else {
+                    // Reset the piece to its original location
+                    squares[fromX][fromY].setIcon(piece);
+                    squares[toX][toY].setIcon(null);
+                }
             }
         }
 
 
-    }
-
-
-    public boolean isValidMove(int fromX, int fromY, int toX, int toY) {
-return true;
-    }
-
+}
 
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
