@@ -1,13 +1,11 @@
+//https://youtu.be/MBP4OqJJNvs
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import javax.swing.ImageIcon;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.List;
 
-public class ChessBoardG {
+public class ChessBoardG implements   MouseListener{
 
     public boolean isUserPlayingWhite = true;
 
@@ -30,104 +28,16 @@ public class ChessBoardG {
     ImageIcon WhiteKnight = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\WN.png");
 
 
+
     public ChessBoardG() {
-
-
         frame = new JFrame("ChessAI"); //Title of the window
         frame.setSize(500, 500);
         frame.setLayout(new GridLayout(8, 8));
 
         for ( int cordX = 0; cordX < 8; cordX++) {
             for (int cordY = 0; cordY < 8; cordY++) {
-                 squares[cordX][cordY] = new JButton(); //for loops used to create chess board]
-
-
-                /*
-                int currentPosCordX = cordX;
-                int currentPosCordY = cordY;
-
-
-
-                squares[cordX][cordY].addMouseListener(new MouseAdapter() {
-                    public void mouseClicked(MouseEvent e){
-                        JButton button = (JButton)e.getSource();
-                        ImageIcon piece = (ImageIcon) button.getIcon();
-                        if(piece == null){
-                            return;}
-
-                        if (piece.equals(WhitePawn) || piece.equals(BlackPawn)) {
-                            int currentPosition = currentPosCordX * 8 + currentPosCordY;
-                            Color pawnColor;
-                            if (piece == WhitePawn) {
-                                pawnColor = Color.WHITE;
-                            } else {
-                                pawnColor = Color.BLACK;}
-                            Pawn pawn = new Pawn(currentPosition, pawnColor);
-
-
-                            List<Integer> legalMoves = pawn.findLegalMoves(board);
-                             for (int position : legalMoves)
-                                 for (int position : legalMoves) {
-                                     int x = position / 8;
-                                     int y = position % 8;
-                                     squares[x][y].setBackground(Color.YELLOW);
-                                 }
-
-                            // Let the user select the square to move the pawn to
-                            squares[cordX][cordY].setBackground(Color.GREEN); // highlight the selected pawn
-                            int newX = -1, newY = -1; // initialize new coordinates to invalid values
-                            while (newX == -1 || newY == -1) { // keep asking until valid coordinates are entered
-                                int response = JOptionPane.showConfirmDialog(null, "Select a square to move the pawn to.");
-                                if (response == JOptionPane.CANCEL_OPTION) { // user cancelled the move
-                                    squares[cordX][cordY].setBackground(null); // unhighlight the selected pawn
-                                    for (int position : legalMoves) { // unhighlight legal moves
-                                        int x = position / 8;
-                                        int y = position % 8;
-                                        squares[x][y].setBackground(null);
-                                    }
-                                    return;
-                                }
-                                try {
-                                    newX = Integer.parseInt(JOptionPane.showInputDialog("Enter the X coordinate of the new position:"));
-                                    newY = Integer.parseInt(JOptionPane.showInputDialog("Enter the Y coordinate of the new position:"));
-                                } catch (NumberFormatException ex) { // invalid input, try again
-                                    continue;
-                                }
-                                int newPosition = newX * 8 + newY;
-                                if (!legalMoves.contains(newPosition)) { // selected square is not a legal move
-                                    JOptionPane.showMessageDialog(null, "Invalid move. Please select a legal move.");
-                                    newX = -1;
-                                    newY = -1;
-                                }
-                            }
-
-                            // Move the selected pawn
-                            int newPosition = newX * 8 + newY;
-                            pawn.move(newPosition);
-
-                            // Update the graphical representation of the board
-                            button.setIcon(null); // remove the pawn from its old position
-                            squares[newX][newY].setIcon(piece); // add the pawn to its new position
-
-                            // Unhighlight squares
-                            squares[cordX][cordY].setBackground(null); // unhighlight the selected pawn
-                            for (int position : legalMoves) { // unhighlight legal moves
-                                int x = position / 8;
-                                int y = position % 8;
-                                squares[x][y].setBackground(null);
-                            }
-                        }
-                    }
-                });
-
-
-
- */
-
-
-
-
-
+                 squares[cordX][cordY] = new JButton(); //for loops used to create chess board
+                squares[cordX][cordY].addMouseListener(this);
 
                 if ((cordX + cordY) % 2 == 0) {
                     squares[cordX][cordY].setBackground(Color.WHITE); //Displays white tiles
@@ -248,24 +158,135 @@ public class ChessBoardG {
         frame.setVisible(true);
     }
 
+    @Override
+    public void mousePressed(MouseEvent e) { //Method for when the mouse is pressed
+
+        JButton button = (JButton) e.getSource();
+        int x = -1;
+        int y = -1;
+
+        // Find the coordinates of the button that was clicked
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (button == squares[i][j]) { //Checks if the button is the same button as the one that was clicked
+                    x = i;
+                    y = j;
+                    break; //Breaks out of the loop if the button is found
+                }
+            }
+            if (x != -1 && y != -1) { // checks if the x and y values have been updated with a valid button coordinate.
+                break; // If they have, then the loops are broken out of using the break statement.
+            }
+        }
+
+        }
+
+@Override
+    public void mouseReleased(MouseEvent e) {
+    JButton source = (JButton) e.getSource();
+    ImageIcon piece = (ImageIcon) source.getIcon();
+    System.out.println("Selected piecesasasa: " + piece);
 
 
 
+        if (piece != null) {
+            // Save the current location of the piece
+            int fromX = -1, fromY = -1;
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (source == squares[i][j]) {
+                        fromX = i;
+                        fromY = j;
+                        break;
+                    }
+                }
+                if (fromX != -1 && fromY != -1) {
+                    break;
+                }
+            }
 
 
 
+            // Determine the new location where the user wants to move the piece
+            JButton destination = (JButton) e.getComponent();
+            int toX = -1, toY = -1;
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (destination == squares[i][j]) {
+                        toX = i;
+                        toY = j;
+                        break;
+                    }
+                }
+                if (toX != -1 && toY != -1) {
+                    break;
+                }
+            }
+
+            if (piece==WhitePawn){
+                System.out.println("White Pawn");
+                if (isValidMove(fromX, fromY, toX, toY)){
+                    if (toX==0){
+                        squares[toX][toY].setIcon(WhiteQueen);
+                        squares[fromX][fromY].setIcon(null);
+                    }
+                }
+
+            }
 
 
 
+            // Check if the move is valid
+            if (isValidMove(fromX, fromY, toX, toY)) {
+                // Update the board
+                squares[toX][toY].setIcon(piece);
+                squares[fromX][fromY].setIcon(null);
 
 
+            } else {
+                // Reset the piece to its original location
+                squares[fromX][fromY].setIcon(null);
+                squares[toX][toY].setIcon(null); //error here
+            }
+        }
 
 
+    }
 
 
+    public boolean isValidMove(int fromX, int fromY, int toX, int toY) {
+return true;
+    }
 
 
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {}
+
+
+    public void mouseClicked(MouseEvent e) { //To find the button that was clicked
+
+        JButton button = (JButton) e.getSource();
+        int x = -1; //Initialising the coordinates
+        int y = -1;
+        for (int i = 0; i < 8; i++) { //For loops to loop through all tiles
+            for (int j = 0; j < 8; j++) {
+                if (button == squares[i][j]) { //If the button that was clicked is equal to the button in the array, record x and y coords and leave the loop
+                    x = i;
+                    y = j;
+                    break;
+                }
+            }
+            if (x != -1 && y != -1) { //If the x and y coords are not equal to -1, leave the loop
+                break;
+            }
+
+        }
+
+        System.out.println("Button at (" + x + ", " + y + ")" + "" + squares[x][y].getIcon()); //Prints x and y as well as the piece
+    }
 
     public static void main(String[] args) {
+
+
         } //Displays the board
 }
