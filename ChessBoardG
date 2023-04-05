@@ -2,6 +2,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 import javax.swing.ImageIcon;
 
 public class ChessBoardG extends Board implements MouseListener{
@@ -182,34 +183,35 @@ public class ChessBoardG extends Board implements MouseListener{
 
 
 @Override
-    public void mouseReleased(MouseEvent e) {
-    JButton source = (JButton) e.getSource();
-    ImageIcon piece = (ImageIcon) source.getIcon();
+    public void mouseReleased(MouseEvent e) { //When the user releases the mouse
+    JButton source = (JButton) e.getSource(); //Gets the source of the button that was clicked
+    ImageIcon piece = (ImageIcon) source.getIcon(); //Gets the icon of the piece that was clicked
 
-        if (piece != null) {
+        if (piece != null) { //If there is a piece
             // Save the current location of the piece
-            int fromX = -1, fromY = -1;
-            for (int i = 0; i < 8; i++) {
+            int fromX = -1; //Save current location of the piece
+            int fromY = -1;
+            for (int i = 0; i < 8; i++) { //Loop through the board
                 for (int j = 0; j < 8; j++) {
-                    if (source == squares[i][j]) {
+                    if (source == squares[i][j]) { //If current square is the same as the square that was clicked
                         fromX = i;
                         fromY = j;
                         break;
                     }
                 }
-                if (fromX != -1 && fromY != -1) {
+                if (fromX != -1 && fromY != -1) { //If piece has been found, break out of loop
                     break;
                 }
             }
 
-            int fromPos = fromX *8 + fromY;
+            int fromPos = fromX *8 + fromY; //Calculate piece current position
 
             // Determine the new location where the user wants to move the piece
             JButton destination = (JButton) e.getComponent();
             int toX = -1, toY = -1;
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < 8; i++) { //Loop through all squares on board
                 for (int j = 0; j < 8; j++) {
-                    if (destination == squares[i][j]) {
+                    if (destination == squares[i][j]) { //If destination location has been found, break out of loop
                         toX = i;
                         toY = j;
                         break;
@@ -220,29 +222,35 @@ public class ChessBoardG extends Board implements MouseListener{
                 }
             }
 
-            int toPos = toX *8 + toY;
+            int toPos = toX *8 + toY; //Calculate the piece new location
 
-            if (piece == WhitePawn) {
+
+            if (piece == WhitePawn) { //If piece is a white pawn
+                Piece piece1 = positions[fromX][fromY]; //Get piece at current location
                 System.out.println("White Pawn");
-                if (WhitePawn.legalMoves.contains(toPos - fromPos)) {
-                    // Move the piece
-                    squares[fromX][fromY].setIcon(null);
+
+                if (piece1.legalMoves.contains(toPos - fromPos)) { //Check if pawn legal move contains the difference between the current position and the old position
+                    //Move the piece
+                    squares[fromX][fromY].setIcon(null); //Move icon on source and destination button
                     squares[toX][toY].setIcon(WhitePawn);
+                    positions [fromX][fromY] = null; //Set current position to null
+                    positions[toX][toY] = piece1; //Set new position to piece
                 }
-            } else {
-                if (piece.legalMoves.contains(toPos - fromPos)) {
-                    // Move the piece
+            }
+
+             else { //If not a white pawn
+
+                if (piece.legalMoves.contains(toPos - fromPos)) { //Check if the piece legal moves contain difference from current position to new position to old position
+                     //Move the piece
                     squares[fromX][fromY].setIcon(null);
-                    squares[toX][toY].setIcon(piece);
-                } else {
+                    squares[toX][toY].setIcon(piece);}
+             else {
                     // Reset the piece to its original location
                     squares[fromX][fromY].setIcon(piece);
                     squares[toX][toY].setIcon(null);
                 }
             }
         }
-
-
 }
 
     public void mouseEntered(MouseEvent e) {}
