@@ -1,0 +1,44 @@
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Knight extends Piece {
+
+    public Knight(int position, Color color, Board board) {
+        super(position, color, board, null);
+    }
+    @Override
+    public List<Integer> findLegalMoves(Board board) {
+        List<Integer> legalMoves = new ArrayList<>();
+
+        int currentPosition = getPosition(); //Get the current position for the pawn
+        int currentXVal = currentPosition / 8; //Calculates the current X position
+        int currentYVal = currentPosition % 8; //Calculates the current Y position
+
+        int[][] moves = {{-2,1}, {-2,-1}, {2,1}, {2,-1}, {-1,2}, {-1,-2}, {1,2}, {1,-2}}; //Array to allow the Knight to only be able to move 2 squares up/ down and 1 tile left or right
+
+        for (int[] move : moves) { //For loop to iterate through the array of possible moves
+            int newX = currentXVal + move[0];//Calculates the new x and y coords that the knights would be
+            int newY = currentYVal + move[1];
+            if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (Math.abs(move[0]) == 2 || Math.abs(move[1]) == 2)) { //If the new coords are within the board and the move is 2 squares up/down and 1 tile left/right.
+                //Math.abs is used to ensure that the move is 2 squares up/down and 1 tile left/right - Used to find the positive value of a number regardless of whether it is positive or negative
+                int newPosition = newX * 8 + newY;
+
+                if(!board.getPosition (newX, newY).isOccupied()) { //If the position is not occupied, add it to the list of legal moves
+                    legalMoves.add(newPosition);
+                }
+
+
+                else {
+                    Piece pieceAtNewPosition ;
+                      pieceAtNewPosition = board.getPosition(newX, newY) ;
+                    if (pieceAtNewPosition.getColor() != color) { //If the position is occupied by an enemy piece, add it to the list of legal moves
+                        legalMoves.add(newPosition);
+                    }
+                }
+            }
+        }
+
+        return legalMoves;
+    }
+}
