@@ -17,15 +17,17 @@ public class Knight extends Piece {
 
         int[][] moves = {{-2,1}, {-2,-1}, {2,1}, {2,-1}, {-1,2}, {-1,-2}, {1,2}, {1,-2}}; //Array to allow the Knight to only be able to move 2 squares up/ down and 1 tile left or right
 
-        for (int[] move : moves) { //For loop to iterate through the array of possible moves
-            int newX = currentXVal + move[0];//Calculates the new x and y coords that the knights would be
-            int newY = currentYVal + move[1];
-            if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (Math.abs(move[0]) == 2 || Math.abs(move[1]) == 2)) { //If the new coords are within the board and the move is 2 squares up/down and 1 tile left/right.
+        for (int[] xMoves : moves) { //For loop to iterate through the array of possible moves
+            int newX = currentXVal + xMoves[0];//Calculates the new x and y coords that the knights would be
+            int newY = currentYVal + xMoves[1];
+            if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (Math.abs(xMoves[0]) == 2 || Math.abs(xMoves[1]) == 2)) { //If the new coords are within the board and the move is 2 squares up/down and 1 tile left/right.
                 //Math.abs is used to ensure that the move is 2 squares up/down and 1 tile left/right - Used to find the positive value of a number regardless of whether it is positive or negative
                 int newPosition = newX * 8 + newY;
 
                 if(!board.getPosition (newX, newY).isOccupied()) { //If the position is not occupied, add it to the list of legal moves
+                    Move move = new Move (newX, newY, board);
                     legalMoves.add(newPosition);
+                    move.setPiece(this);
                 }
 
 
@@ -33,7 +35,9 @@ public class Knight extends Piece {
                     Piece pieceAtNewPosition ;
                       pieceAtNewPosition = board.getPosition(newX, newY) ;
                     if (pieceAtNewPosition.getColor() != color) { //If the position is occupied by an enemy piece, add it to the list of legal moves
+                        Move move = new Move (newX, newY, board);
                         legalMoves.add(newPosition);
+                        move.setPiece(this);
                     }
                 }
             }
