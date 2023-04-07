@@ -1,0 +1,86 @@
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
+public class King extends Piece {
+
+    public King(int position, Color color, Board board) {
+        super(position, color, board, null);
+    }
+
+    @Override
+    public List<Integer> findLegalMoves(Board board) {
+        List<Integer> legalMoves = new ArrayList<>();
+
+        int currentPosition = getPosition(); // Get the current position for the king
+        int currentXVal = currentPosition / 8; // Calculates the current X position
+        int currentYVal = currentPosition % 8; // Calculates the current Y position
+        Piece pieceAtNewPosition;
+
+        // Check in the north direction
+        if (currentXVal > 0 && currentYVal < 7) {
+            pieceAtNewPosition = board.getPosition(currentXVal - 1, currentYVal);
+            if (pieceAtNewPosition == null || pieceAtNewPosition.getColor() != getColor()) {
+                legalMoves.add((currentXVal - 1) * 8 + currentYVal);
+            }
+        }
+
+        // Check in the east direction
+        if (currentYVal < 7 && currentYVal > 0) {
+            pieceAtNewPosition = board.getPosition(currentXVal, currentYVal + 1);
+            if (pieceAtNewPosition == null || pieceAtNewPosition.getColor() != getColor()) {
+                legalMoves.add(currentXVal * 8 + currentYVal + 1);
+            }
+        }
+
+        // Check in the south direction
+        if (currentXVal < 7 && currentXVal > 0) {
+            pieceAtNewPosition = board.getPosition(currentXVal + 1, currentYVal);
+            if (pieceAtNewPosition == null || pieceAtNewPosition.getColor() != getColor()) {
+                legalMoves.add((currentXVal + 1) * 8 + currentYVal);
+            }
+        }
+
+        // Check in the west direction
+        if (currentYVal > 0 && currentYVal < 7) {
+            pieceAtNewPosition = board.getPosition(currentXVal, currentYVal - 1);
+            if (pieceAtNewPosition == null || pieceAtNewPosition.getColor() != getColor()) {
+                legalMoves.add(currentXVal * 8 + currentYVal - 1);
+            }
+        }
+
+        //Check in the northwest direction
+        if(currentXVal<7 && currentYVal<7){
+            pieceAtNewPosition = board.getPosition(currentXVal-1, currentYVal-1);
+            if(pieceAtNewPosition == null || pieceAtNewPosition.getColor() != getColor()){
+                legalMoves.add((currentXVal-1)*8+currentYVal-1);
+            }
+        }
+
+        // Check in the northeast direction
+        if (currentXVal > 0 && currentYVal < 7) {
+            pieceAtNewPosition = board.getPosition(currentXVal - 1, currentYVal + 1);
+            if (pieceAtNewPosition == null || pieceAtNewPosition.getColor() != getColor()) {
+                legalMoves.add((currentXVal - 1) * 8 + currentYVal + 1);
+            }
+        }
+
+
+        // Check in the southeast direction
+        if (currentXVal < 7 && currentYVal < 7) {
+            pieceAtNewPosition = board.getPosition(currentXVal + 1, currentYVal + 1);
+            if (pieceAtNewPosition == null || pieceAtNewPosition.getColor() != getColor()) {
+                legalMoves.add((currentXVal + 1) * 8 + currentYVal + 1);
+            }
+        }
+
+        // Check in the southwest direction
+        if (currentXVal < 7 && currentYVal > 0) {
+            pieceAtNewPosition = board.getPosition(currentXVal + 1, currentYVal - 1);
+            if (pieceAtNewPosition == null || pieceAtNewPosition.getColor() != getColor()) {
+                legalMoves.add((currentXVal + 1) * 8 + currentYVal - 1);
+            }
+        }
+return legalMoves;
+    }
+}
