@@ -1,0 +1,75 @@
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Rook extends Piece{
+
+    public Rook(int position, Color color, Board board){
+        super(position, color, board, null);}
+
+    @Override
+    public List<Integer> findLegalMoves (Board board) {
+        List<Integer> legalMoves = new ArrayList<>();
+
+        int currentPosition = getPosition(); //Get the current position for the pawn
+        int currentXVal = currentPosition / 8; //Calculates the current X position
+        int currentYVal = currentPosition % 8; //Calculates the current Y position
+        Piece pieceAtNewPosition;
+
+        //Check in x direction
+        for (int x = currentXVal + 1; x < 8; x++) { //Loop through all positive X directions possible moves
+            int newX = x;
+            int newPosition = x * 8 + currentYVal;
+             pieceAtNewPosition = board.getPosition(newX, currentYVal); //Get the piece at the new position
+            if (pieceAtNewPosition == null) { //If the position is not occupied, add it to the list of legal moves
+                legalMoves.add(newPosition);
+            } else {
+                if (pieceAtNewPosition.getColor() != getColor()) { //If it is an enemy piece, add it to the list of legal moves
+                    legalMoves.add(newPosition);
+                }
+                break;
+            }
+        }
+
+        for (int x = currentXVal - 1; x >= 0; x--) { //Loop through all negative X directions possible moves
+            int newX = x;
+            int newPosition = x * 8 + currentYVal;
+            pieceAtNewPosition = board.getPosition(newX, currentYVal);
+            if (pieceAtNewPosition == null) {
+                legalMoves.add(newPosition);
+            } else {
+                if (pieceAtNewPosition.getColor() != getColor()) {
+                    legalMoves.add(newPosition);
+                }
+                break;
+            }
+        }
+        for (int y = currentYVal + 1; y < 8; y++) { //Loop through all positive Y directions possible moves
+            int newY = y;
+            int newPosition = currentXVal * 8 + y;
+            pieceAtNewPosition = board.getPosition(currentXVal, newY);
+            if (pieceAtNewPosition == null) {
+                legalMoves.add(newPosition);
+            } else {
+                if (pieceAtNewPosition.getColor() != getColor()) {
+                    legalMoves.add(newPosition);
+                }
+                break;
+            }
+        }
+
+        for (int y  = currentYVal - 1; y >= 0; y--) { //Loop through all negative Y directions possible moves
+            int newY = y;
+            int newPosition = currentXVal * 8 + y;
+            pieceAtNewPosition = board.getPosition(currentXVal, newY);
+            if (pieceAtNewPosition == null) {
+                legalMoves.add(newPosition);
+            } else {
+                if (pieceAtNewPosition.getColor() != getColor()) {
+                    legalMoves.add(newPosition);
+                }
+                break;
+            }
+        }
+        return legalMoves;}
+    }
