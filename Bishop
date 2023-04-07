@@ -1,0 +1,79 @@
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Bishop extends Piece {
+
+    public Bishop(int position, Color color, Board board) {
+        super(position, color, board, null);
+    }
+
+    @Override
+    public List<Integer> findLegalMoves(Board board) {
+        List<Integer> legalMoves = new ArrayList<>();
+
+        int currentPosition = getPosition(); // Get the current position for the bishop
+        int currentXVal = currentPosition / 8; // Calculates the current X position
+        int currentYVal = currentPosition % 8; // Calculates the current Y position
+        Piece pieceAtNewPosition;
+
+        // Check in the northwest direction
+        for (int x = currentXVal - 1;x >= 0; x--) {
+            for (int y = currentYVal + 1; y < 8; y++) {
+                int newPosition = x * 8 + y;
+                pieceAtNewPosition = board.getPosition(x, y);
+                if (pieceAtNewPosition == null) {
+                    legalMoves.add(newPosition);
+                } else {
+                    if (pieceAtNewPosition.getColor() != getColor()) {
+                        legalMoves.add(newPosition);
+                    }
+                    break;}
+            }}
+
+
+        // Check in the northeast direction
+        for (int x = currentXVal + 1; x < 8; x++) {
+            for (int y = currentYVal + 1; y < 8; y++) {
+                int newPosition = x * 8 + y;
+                pieceAtNewPosition = board.getPosition(x, y);
+                if (pieceAtNewPosition == null) {
+                    legalMoves.add(newPosition);
+                } else {
+                    if (pieceAtNewPosition.getColor() != getColor()) {
+                        legalMoves.add(newPosition);
+                    }
+                    break;}
+            }}
+
+        // Check in the southwest direction
+        for (int x = currentXVal - 1; x >= 0; x--) {
+             for(int y = currentYVal - 1; y >= 0;y--) {
+            int newPosition = x * 8 + y;
+            pieceAtNewPosition = board.getPosition(x, y);
+            if (pieceAtNewPosition == null) {
+                legalMoves.add(newPosition);
+            } else {
+                if (pieceAtNewPosition.getColor() != getColor()) {
+                    legalMoves.add(newPosition);
+                }
+                break;}
+        }}
+
+        // Check in the southeast direction
+        for (int x = currentXVal + 1; x < 8; x++){
+             for(int y = currentYVal - 1;  y >= 0; y--) {
+            int newPosition = x * 8 + y;
+            pieceAtNewPosition = board.getPosition(x, y);
+            if (pieceAtNewPosition == null) {
+                legalMoves.add(newPosition);
+            } else {
+                if (pieceAtNewPosition.getColor() != getColor()) {
+                    legalMoves.add(newPosition);
+                }
+                break;}
+        }}
+
+        return legalMoves;
+    }
+}
