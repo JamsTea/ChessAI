@@ -1,0 +1,114 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+
+
+public class Move extends JButton {
+    private final int x;
+    private final int y;
+    private Piece piece;
+    private Board board;
+
+    public Move(int x, int y, Board board) {
+        this.x = x;
+        this.y = y;
+        this.board = board;
+
+
+        addMouseListener(new MouseAdapter() {
+            private boolean pieceSelected = false; //added
+            private Piece selectedPiece; //added
+
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                while(!pieceSelected) {
+                    if (piece != null) {
+                        pieceSelected = true;
+                        selectedPiece = piece;
+                        System.out.println("Piece selected");
+                    }
+
+                    if (pieceSelected) {
+                        if (piece != null) {
+                            if (piece.getColor() == selectedPiece.getColor()) {
+                                pieceSelected = false;
+                                selectedPiece = null;
+                            }
+                        } else {
+                            if (selectedPiece instanceof Pawn) {
+                                Pawn pawn = (Pawn) selectedPiece;
+                                List<Integer> legalMoves = pawn.findLegalMoves(board);
+
+                                // Get the position of the clicked square on the board
+                                int clickedX = x;
+                                int clickedY = y;
+
+                                // Check if the clicked square is a legal move for the pawn
+                                int newPosition = clickedX * 8 + clickedY;
+                                if (legalMoves.contains(newPosition)) {
+                                    // Move the pawn to the new position
+                                    pawn.move(newPosition);
+                                    pieceSelected = false;
+                                    selectedPiece = null;
+
+                                    // Update the GUI
+                                    updateIcon();
+                                    board.updateGUI();
+                                }
+                            }
+                        }
+                    }
+                }
+                if (piece instanceof Pawn) {
+                    Pawn pawn = (Pawn) piece;
+                    List<Integer> legalMoves = pawn.findLegalMoves(board);
+
+                    // Get the position of the clicked square on the board
+                    int clickedX = e.getX();
+                    int clickedY = e.getY();
+
+                    // Check if the clicked square is a legal move for the pawn
+                    int newPosition = clickedX * 8 + clickedY;
+                    if (legalMoves.contains(newPosition)) {
+                        // Move the pawn to the new position
+                        pawn.move(newPosition);
+
+                        // Update the GUI
+                        updateIcon();
+                        board.updateGUI();
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    public int getPosition() {
+        return y * 8 + x;
+    }
+
+
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+        updateIcon();
+    }
+
+    private void updateIcon() { // Add code for other piece types and colors
+        if (piece == null) {
+            setIcon(null);
+        } else if (piece.getColor() == Color.WHITE) {
+            if (piece instanceof Pawn) {
+                setIcon(new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\WP.png"));
+            }
+        }
+
+    }
+
+
+
+
+}
