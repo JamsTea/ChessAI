@@ -3,7 +3,7 @@ import java.awt.*;
 import java.util.List;
 
 public class Board {
-    private JFrame frame;
+   private JFrame frame;
 
     Board board = new Board();
     Pawn pawn = new Pawn(0, Color.WHITE, board);
@@ -45,10 +45,20 @@ public class Board {
 
 
     public void updateGUI() {
+        boolean whiteKingTaken = false;
+        boolean blackKingTaken = false;
+
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
-                JButton button = getButton(x, y); // get the JButton for the given x and y coordinates
                 Piece piece = getPosition(x, y); // get the piece at the given x and y coordinates
+                if (piece instanceof King) {
+                    if (piece.getColor() == Color.WHITE) {
+                        whiteKingTaken = true;
+                    } else {
+                        blackKingTaken = true;
+                    }
+                }
+                JButton button = getButton(x, y); // get the JButton for the given x and y coordinates
                 if (piece == null) {
                     button.setIcon(null); // set the button icon to null if there's no piece at the given x and y coordinates
                 } else {
@@ -57,12 +67,18 @@ public class Board {
                 }
             }
         }
+
+        if (whiteKingTaken == true) {
+            JOptionPane.showMessageDialog(frame, "Black wins! White's king has been taken.");
+        }
+        if (blackKingTaken== true) {
+            JOptionPane.showMessageDialog(frame, "White wins! Black's king has been taken.");
+        }
     }
 
 
 
-
-    private Piece [][] positions; //2D Array called Positions
+    public Piece [][] positions; //2D Array called Positions
 
     public Board() {
         positions = new Piece[8][8];} //Initialised array 8 x 8 (size of chess board)
@@ -74,29 +90,6 @@ public class Board {
         return positions [x][y];}
 
 
-    /*
-    public boolean canTakePiece(int x, int y){ //Boolean function which will return true if the piece attacking is an enemy piece or not
-        Piece piece = positions [x][y];
-        if (piece == null){
-            return false;}
 
-        if (isUserPlayingWhite){
-            if(piece.getPosition() == blackPawn || piece.getPosition() == blackKnight || piece.getPosition() ==blackBishop || piece.getPosition() == blackRook
-                    || piece.getPosition()==blackQueen || piece.getPosition() == blackKing ){
-                return true;}
-        }
-
-        if (!isUserPlayingWhite ){
-            if(piece.getPosition() == whitePawn || piece.getPosition() == whiteKnight || piece.getPosition() == whiteBishop || piece.getPosition()==whiteRook
-                    || piece.getPosition()==whiteQueen || piece.getPosition()==whiteKing){
-                return true;}
-        }
-        return false;
-
-    }
-
-
-
-     */
 
 }
