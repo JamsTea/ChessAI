@@ -3,10 +3,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rook extends Piece{
+    private boolean hasMoved;
 
     public Rook(int position, Color color, Board board){
-        super(position, color, board, null);}
+        super(position, color, board, null);
+    hasMoved=false;
+         }
 
+    public boolean canCastle(){
+        return !hasMoved;
+    }
     @Override
     public List<Integer> findLegalMoves (Board board) {
         List<Integer> legalMoves = new ArrayList<>();
