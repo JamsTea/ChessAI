@@ -3,14 +3,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class King extends Piece {
+    private boolean canCastleKingSide;
+    private boolean canCastleQueenSide;
 
     public King(int position, Color color, Board board) {
         super(position, color, board, null);
     }
 
+    public boolean canCastleKingSide() {
+        if (!canCastleKingSide) {
+            return false;}// If the king cannot castle on the king side, return false
+        Piece kingSideRook = getBoard().getPosition(getPosition() / 8, 7); // Get the king side rook
+
+        if (kingSideRook == null || !(kingSideRook instanceof Rook) || !((Rook) kingSideRook).canCastle()) { // If there is no rook on the king side, the piece is not a Rook, or the Rook cannot castle, return false
+            return false;}
+
+        for (int i = getPosition() + 1; i <= getPosition() + 2; i++) {// Check if the spaces between the king and the rook on the king side are empty
+            if (getBoard().getPosition(i / 8, i % 8) != null) {
+                return false;
+            }
+        }
+        return true; //Return true if all conditions are met
+    }
+    public boolean canCastleQueenSide() {
+        if (!canCastleQueenSide) {
+            return false; // If the king cannot castle on the queen side, return false
+        }
+
+        Piece queenSideRook = getBoard().getPosition(getPosition() / 8, 0); // Get the queen side rook
+
+        if (queenSideRook == null || !(queenSideRook instanceof Rook) || !((Rook) queenSideRook).canCastle()) {// If there is no rook on the queen side, the piece is not a rook, or the rook cannot castle, return false
+            return false;}
+
+        for (int i = getPosition() - 1; i >= getPosition() - 3; i--) {// Check if the spaces between the king and the rook on the queen side are empty
+            if (getBoard().getPosition(i / 8, i % 8) != null) {
+                return false;}
+        }
+
+        return true; //Return true if all conditions are met
+    }
+
     @Override
     public List<Integer> findLegalMoves(Board board) {
         List<Integer> legalMoves = new ArrayList<>();
+
+
 
         int currentPosition = getPosition(); // Get the current position for the king
         int currentXVal = currentPosition / 8; // Calculates the current X position
@@ -81,6 +118,21 @@ public class King extends Piece {
                 legalMoves.add((currentXVal + 1) * 8 + currentYVal - 1);
             }
         }
+        if (canCastleKingSide()) { /// Check if the squares between the king and rook are clear
+            if (board.getPosition(currentXVal, currentYVal + 1) == null &&
+                    board.getPosition(currentXVal, currentYVal + 2) == null) {
+                legalMoves.add(currentPosition + 2);
+            }
+        }
+
+        if (canCastleQueenSide()) {
+            if (board.getPosition(currentXVal, currentYVal - 1) == null && // // Check if the squares between the king and rook are clear
+                    board.getPosition(currentXVal, currentYVal - 2) == null &&
+                    board.getPosition(currentXVal, currentYVal - 3) == null) {
+                legalMoves.add(currentPosition - 2);
+            }
+        }
+
 return legalMoves;
     }
 }
