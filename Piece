@@ -5,15 +5,17 @@ import java.awt.Image;
 public abstract class Piece extends Board {
 
     private int position;
-    private Color color;
+    public Color color;
     private int piece;
+    private Board board;
     private Image image;
 
     public Piece(int position, Color color, Board board, Image image) { //Constructor to initialise the position and colour of the chess piece
         this.position = position;
         this.color = color;
         this.board = board;
-        this.image = image;}
+        this.image = image;
+    this.piece= piece;}
 
     public Image getImage() { //Get method to return the ImageIcon
         return image;
@@ -41,4 +43,11 @@ public abstract class Piece extends Board {
     }
 
     public abstract List<Integer> findLegalMoves(Board board); //Abstract method to find the legal moves of a chess piece at a given point in time
+
+
+    public Board getBoard() {
+        return board;
+    }
+
+
 }
