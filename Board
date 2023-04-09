@@ -1,13 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public class Board {
-   private JFrame frame;
 
-    Board board = new Board();
-    Pawn pawn = new Pawn(0, Color.WHITE, board);
-
+    private JFrame frame;
 
     //Numerical value for each piece. Will be used to help decide whether the piece is the opposition or not
     public final int empty = 0;
@@ -89,6 +85,8 @@ public class Board {
     public Piece getPosition (int x , int y){ //Get method to return the position at x and y co-ords
         return positions [x][y];}
 
+    public static void main(String[] args) {
+    }
 
 
 
