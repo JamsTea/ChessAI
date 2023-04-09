@@ -8,6 +8,8 @@ public class ChessBoardG extends Board implements MouseListener{
     public boolean isUserPlayingWhite = true;
     boolean isWhiteTurn = true;
 
+    private Board board;
+
     public void switchTurns(){
         isWhiteTurn=!isWhiteTurn;}
 
@@ -29,9 +31,44 @@ public class ChessBoardG extends Board implements MouseListener{
     ImageIcon WhiteRook = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\WR.png");
     ImageIcon WhiteKnight = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\WN.png");
 
+//    ImageIcon surrenderFlag = new Image()
 
 
     public ChessBoardG() {
+
+        positions = new Piece[8][8]; //Removes piece= null error
+        positions[0][0] = new Rook(0, Color.BLACK, board);
+        positions[0][1] = new Knight(1, Color.BLACK, board);
+        positions[0][2] = new Bishop(2, Color.BLACK, board);
+        positions[0][3] = new Queen(3, Color.BLACK, board);
+        positions[0][4] = new King(4, Color.BLACK, board);
+        positions[0][5] = new Bishop(5, Color.BLACK, board);
+        positions[0][6] = new Knight(6, Color.BLACK, board);
+        positions[0][7] = new Rook(7, Color.BLACK, board);
+        for (int i = 0; i < 8; i++) {
+            positions[1][i] = new Pawn(i + 8, Color.BLACK, board);
+        }
+        for (int i = 2; i < 6; i++) {
+            for (int j = 0; j < 8; j++) {
+                positions[i][j] = null;
+            }
+        }
+        for (int i = 0; i < 8; i++) {
+            positions[6][i] = new Pawn(i + 48, Color.WHITE, board);
+        }
+        positions[7][0] = new Rook(56, Color.WHITE, board);
+        positions[7][1] = new Knight(57, Color.WHITE, board);
+        positions[7][2] = new Bishop(58, Color.WHITE, board);
+        positions[7][3] = new Queen(59, Color.WHITE, board);
+        positions[7][4] = new King(60, Color.WHITE, board);
+        positions[7][5] = new Bishop(61, Color.WHITE, board);
+        positions[7][6] = new Knight(62, Color.WHITE, board);
+        positions[7][7] = new Rook(63, Color.WHITE, board);
+
+
+
+
+        board = new Board();
         frame = new JFrame("ChessAI"); //Title of the window
         frame.setSize(500, 500);
         frame.setLayout(new GridLayout(8, 8));
@@ -119,7 +156,6 @@ public class ChessBoardG extends Board implements MouseListener{
 
 
     }
-
     public void uWhiteSide() { //Flips the board around so that the user is playing white - AI can play black
         isUserPlayingWhite = true;
 
@@ -198,8 +234,10 @@ public class ChessBoardG extends Board implements MouseListener{
             }
         }
     }
-    private void movePiece(JButton source, ImageIcon piece, Component destination) {
-        if (piece != null) { //If there is a piece
+
+
+    private void movePiece(JButton source, ImageIcon icon, Component destination) {
+        if (icon != null) { //If there is a piece
             int fromX = -1; //Save current location of the piece
             int fromY = -1;
             for (int i = 0; i < 8; i++) { //Loops through the board
@@ -233,26 +271,50 @@ public class ChessBoardG extends Board implements MouseListener{
             }
 
             int toPos = toX * 8 + toY; //Calculate the piece new location
-
-            if (piece == WhitePawn) {
-                Piece piece1 = positions[fromX][fromY];
+            /*
+            if (icon == WhitePawn) {
                 System.out.println("White Pawn");
-
-                if (piece1.legalMoves.contains(toPos - fromPos)) { //error on legalMoves - "Cannot resolve symbol 'legalMoves'"
+                if (piece.findLegalMoves(board).contains(toPos - fromPos)) {
                     squares[fromX][fromY].setIcon(null);
                     squares[toX][toY].setIcon(WhitePawn);
                     positions[fromX][fromY] = null;
-                    positions[toX][toY] = piece1;
+                    positions[toX][toY] = piece;
                 }
-            } else {
-                if (piece.legalMoves.contains(toPos - fromPos)) { //error on legalMoves "Cannot resolve symbol 'legalMoves'"
+            } else { //If piece is not a white pawn
+                if (piece.findLegalMoves(board).contains(toPos - fromPos)) {
                     squares[fromX][fromY].setIcon(null);
-                    squares[toX][toY].setIcon(piece);
-                } else {
-                    squares[fromX][fromY].setIcon(piece);
+                    squares[toX][toY].setIcon(icon);
+                } else { //Set icon back to original position
+                    squares[fromX][fromY].setIcon(icon);
                     squares[toX][toY].setIcon(null);
                 }
             }
+            */
+            Piece piece2 = positions[fromX][fromY];
+            System.out.println("icon: " + icon);
+            System.out.println("WhitePawn: " + WhitePawn);
+            if (piece2 instanceof Pawn && piece2.getColor() == Color.WHITE) {
+                System.out.println("White Pawn");
+                System.out.println("This is"+piece2);
+                System.out.println("Legal moves"+ piece2.findLegalMoves(board));
+                Pawn pawn = (Pawn) piece2;
+                if (pawn.findLegalMoves(board).contains(toPos - fromPos)) {
+                    squares[fromX][fromY].setIcon(null);
+                    squares[toX][toY].setIcon(WhitePawn);
+                    positions[fromX][fromY] = null;
+                    positions[toX][toY] = pawn;
+                }
+            } else { //If piece is not a white pawn
+                if (piece2.findLegalMoves(board).contains(toPos - fromPos)) {
+                    squares[fromX][fromY].setIcon(null);
+                    squares[toX][toY].setIcon(icon);
+                } else { //Set icon back to original position
+                    squares[fromX][fromY].setIcon(icon);
+                    squares[toX][toY].setIcon(null);
+                }
+            }
+
+
         }
     }
 
