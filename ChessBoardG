@@ -2,16 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.ImageIcon;
-
+import javax.swing.JFrame;
 public class ChessBoardG extends Board implements MouseListener{
-
-    public boolean isUserPlayingWhite = true;
-    boolean isWhiteTurn = true;
-
     private Board board;
-
-    public void switchTurns(){
-        isWhiteTurn=!isWhiteTurn;}
+    private AIEasy ai;
 
     JFrame frame;
     JButton squares[][] = new JButton[8][8]; // Array for chess board - 8x8
@@ -31,12 +25,10 @@ public class ChessBoardG extends Board implements MouseListener{
     ImageIcon WhiteRook = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\WR.png");
     ImageIcon WhiteKnight = new ImageIcon("E:\\Coding projects\\NEA\\ChessAI\\Pieces\\WN.png");
 
-//    ImageIcon surrenderFlag = new Image()
+    public ChessBoardG(AIEasy ai) {
+        this.board = new Board();
+        this.ai = ai;
 
-
-    public ChessBoardG() {
-
-        positions = new Piece[8][8]; //Removes piece= null error
         positions[0][0] = new Rook(0, Color.BLACK, board);
         positions[0][1] = new Knight(1, Color.BLACK, board);
         positions[0][2] = new Bishop(2, Color.BLACK, board);
@@ -155,9 +147,12 @@ public class ChessBoardG extends Board implements MouseListener{
         } //Sets the program visible
 
 
+
+
     }
     public void uWhiteSide() { //Flips the board around so that the user is playing white - AI can play black
         isUserPlayingWhite = true;
+
 
         for (int cordX = 0; cordX < 8; cordX++) {
             for (int cordY = 0; cordY < 8; cordY++) {
@@ -347,7 +342,6 @@ public class ChessBoardG extends Board implements MouseListener{
     }
 
     public static void main(String[] args) {
-
 
         }
 }
