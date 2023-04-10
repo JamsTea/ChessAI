@@ -1,0 +1,59 @@
+import java.awt.*;
+import java.util.List;
+import java.util.Random;
+
+public class AIEasy extends  Board {
+    private  Random random;
+
+    public  AIEasy() {
+        random = new Random();
+    }
+
+    public void makeWhiteMove(Board board, boolean isWhitePlayer, boolean isAITurn) {
+        boolean validMoveMade = false;
+        while (!validMoveMade) {
+            if (board.isWhiteTurn == isAITurn && board.isUserPlayingWhite == isWhitePlayer) { // Check if it's the AI's turn to move
+                int fromX = random.nextInt(8);
+                int fromY = random.nextInt(8);
+                Piece piece = board.getPosition(fromX, fromY);
+                if (piece != null && (isWhitePlayer && piece.getColor() == Color.WHITE || !isWhitePlayer && piece.getColor() == Color.BLACK)) {
+                    List<Integer> legalMoves = piece.findLegalMoves(board);
+                    if (!legalMoves.isEmpty()) {
+                        int toIndex = random.nextInt(legalMoves.size());
+                        int toX = legalMoves.get(toIndex) / 8;
+                        int toY = legalMoves.get(toIndex) % 8;
+                        board.setPiece(piece, toX, toY);
+                        board.setPiece(null, fromX, fromY);
+                        validMoveMade = true;
+                    }
+                }
+            }
+            board.switchTurns(); // Switch the turn to the other player
+        }
+    }
+
+
+    public void makeBlackMove(Board board, boolean isWhitePlayer, boolean isAITurn) {
+        boolean validMoveMade = false;
+        while (!validMoveMade) {
+            if (board.isWhiteTurn == isAITurn && board.isUserPlayingWhite != isWhitePlayer) { // Check if it's the AI's turn to move
+                int fromX = random.nextInt(8);
+                int fromY = random.nextInt(8);
+                Piece piece = board.getPosition(fromX, fromY);
+                if (piece != null && (!isWhitePlayer && piece.getColor() == Color.WHITE || isWhitePlayer && piece.getColor() == Color.BLACK)) {
+                    List<Integer> legalMoves = piece.findLegalMoves(board);
+                    if (!legalMoves.isEmpty()) {
+                        int toIndex = random.nextInt(legalMoves.size());
+                        int toX = legalMoves.get(toIndex) / 8;
+                        int toY = legalMoves.get(toIndex) % 8;
+                        board.setPiece(piece, toX, toY);
+                        board.setPiece(null, fromX, fromY);
+                        validMoveMade = true;
+                    }
+                }
+            }
+            board.switchTurns(); // Switch the turn to the other player
+        }
+    }
+
+}
