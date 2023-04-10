@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Color;
 
 public class Board {
 
@@ -19,6 +20,12 @@ public class Board {
     public final int blackRook = -4;
     public final int blackQueen =-5;
     public final int blackKing =-6;
+
+    public boolean isUserPlayingWhite = true;
+    boolean isWhiteTurn = true;
+
+    public void switchTurns(){
+        isWhiteTurn=!isWhiteTurn;}
 
 
     public JButton getButton(int x, int y) {
